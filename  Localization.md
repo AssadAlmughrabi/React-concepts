@@ -1,29 +1,27 @@
-# Localization in React
+# Localization
 
-## What is it?
+## Definition
 
-**Localization** means showing The app in the user's language and format (text, dates, numbers, currency).
+**Localization** means showing the app in the user's language and format (text, dates, numbers, currency).
 
-Example: the same button shows "Buy now" in English and "اشترِ الآن" in Arabic.
+## Why?
+
+So users from different countries can use the app in their own language.
 
 ## Example
 
-Put the text for each language in one object, then pick the current language.
-
 ```jsx
 const translations = {
-  en: { welcome: "Welcome", buy: "Buy now" },
-  ar: { welcome: "مرحبا", buy: "اشترِ الآن" },
+  en: { buy: "Buy now" },
+  ar: { buy: "اشترِ الآن" },
 };
 
 function App() {
   const [lang, setLang] = useState("en");
-  const t = translations[lang];
 
   return (
     <div dir={lang === "ar" ? "rtl" : "ltr"}>
-      <h1>{t.welcome}</h1>
-      <button>{t.buy}</button>
+      <button>{translations[lang].buy}</button>
       <button onClick={() => setLang(lang === "en" ? "ar" : "en")}>
         Change language
       </button>
@@ -32,15 +30,11 @@ function App() {
 }
 ```
 
-- Don't hard-code text inside components. Use keys like `t.welcome`.
+Clicking "Change language" switches the text between English and Arabic.
+
+## Notes
+
+- Don't hard-code text in components. Keep it in one place per language.
 - `dir="rtl"` makes Arabic read right-to-left.
 - In real projects, use a library like **react-i18next**.
-
-## Dates and numbers
-
-JavaScript has the built-in `Intl` API for this:
-
-```js
-new Intl.DateTimeFormat("en-US").format(new Date()); // 10/6/2026
-new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(1234.5); // $1,234.50
-```
+- For dates and numbers, use the built-in `Intl` API.
